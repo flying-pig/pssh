@@ -53,13 +53,16 @@ def parse_args():
     return opts, args
 
 def do_pscp(hosts, localargs, remote, opts):
+    ssh_cmd = ['scp']
+    if opts.sudo:
+        ssh_cmd = ['sudo', 'scp']
     if opts.outdir and not os.path.exists(opts.outdir):
         os.makedirs(opts.outdir)
     if opts.errdir and not os.path.exists(opts.errdir):
         os.makedirs(opts.errdir)
     manager = Manager(opts)
     for host, port, user in hosts:
-        cmd = ['scp', '-qC']
+        cmd = ssh_cmd + ['-qC']
         if opts.options:
             for opt in opts.options:
                 cmd += ['-o', opt]

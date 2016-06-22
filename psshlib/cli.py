@@ -52,6 +52,8 @@ def common_parser():
             'spaces, quotes, and backslashes')
     parser.add_option('-X', '--extra-arg', dest='extra', action='append',
             metavar='ARG', help='Extra command-line argument')
+    parser.add_option('-s', '--sudo', dest='sudo', action='store_true',
+            help='sudo mode execute ssh command (OPTIONAL)')
 
     return parser
 

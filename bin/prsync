@@ -61,13 +61,16 @@ def parse_args():
     return opts, args
 
 def do_prsync(hosts, local, remote, opts):
+    ssh_cmd = ['ssh']
+    if opts.sudo:
+        ssh_cmd = ['sudo', 'ssh']
     if opts.outdir and not os.path.exists(opts.outdir):
         os.makedirs(opts.outdir)
     if opts.errdir and not os.path.exists(opts.errdir):
         os.makedirs(opts.errdir)
     manager = Manager(opts)
     for host, port, user in hosts:
-        ssh = ['ssh']
+        ssh = ssh_cmd
         if opts.options:
             for opt in opts.options:
                 ssh += ['-o', opt]

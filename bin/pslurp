@@ -58,6 +58,9 @@ def parse_args():
     return opts, args
 
 def do_pslurp(hosts, remote, local, opts):
+    ssh_cmd = ['scp']
+    if opts.sudo:
+        ssh_cmd = ['sudo', 'scp']
     if opts.localdir and not os.path.exists(opts.localdir):
         os.makedirs(opts.localdir)
     if opts.outdir and not os.path.exists(opts.outdir):
@@ -77,7 +80,7 @@ def do_pslurp(hosts, remote, local, opts):
             localpath = "%s/%s/%s" % (opts.localdir, host, local)
         else:
             localpath = "%s/%s" % (host, local)
-        cmd = ['scp', '-qC']
+        cmd = ssh_cmd + ['-qC']
         if opts.options:
             for opt in opts.options:
                 cmd += ['-o', opt]
